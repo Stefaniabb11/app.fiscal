@@ -16,7 +16,7 @@ filtro = data[data['entidad'] == mun]
 
 #aplica el filtro 
 
-st.dataframe(filtro) #dataframe original pero filtrado por municipio
+#st.dataframe(filtro) #dataframe original pero filtrado por municipio
 
 gen = (filtro.groupby('clas_gen')['total_recaudo'].sum()) 
 total_gen = gen.sum()
@@ -29,8 +29,8 @@ total_det = det.sum()
 det = (det/total_det).round(3) #proporciones para hacer el grafico de torta
 #el codigo groupby separa las clasificaciones 
 
-st.dataframe(gen) #clasificacion general 
-st.dataframe(det) #clasificacion detallada 
+#st.dataframe(gen) #clasificacion general 
+#st.dataframe(det) #clasificacion detallada 
 
 #dataframe para mostrar el streamlit en internet.
 
@@ -39,19 +39,27 @@ st.dataframe(det) #clasificacion detallada
 fig, ax = plt.subplots(1, 1, figsize=(10, 6)) #fig(marco), axe(lienzo)
 ax.pie(gen.values, labels=gen.index)
 
-st.pyplot(fig)
+#st.pyplot(fig)
+
+# Pie chart con plotly express
+
+pie = px.pie(
+    gen.reset_index(),
+    names = "clas_gen",
+    values = "total_recaudo",
+    title = "Clacificación general por recaudo",)
 
 fig, ax = plt.subplots(1, 1, figsize=(10, 6))
 ax.pie(det.values, labels=det.index)
 
-st.pyplot(fig)
+#st.pyplot(fig)
 
 #treemap 
 #creamos otro dataframe 
 
 #gropuby agrupaaaaa
 fin = (filtro.groupby(['clas_gen', 'clasificacion_ofpuj'])['total_recaudo'].sum().reset_index())
-st.dataframe(fin)
+#st.dataframe(fin)
 
 fig = px.treemap(fin, path = [px.Constant("Total"),'clas_gen' , 'clasificacion_ofpuj'], values= 'total_recaudo')
 st.plotly_chart(fig)
