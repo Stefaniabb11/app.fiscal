@@ -49,6 +49,8 @@ pie = px.pie(
     values = "total_recaudo",
     title = "Clacificación general por recaudo",)
 
+st.plotly_chart(pie)
+
 fig, ax = plt.subplots(1, 1, figsize=(10, 6))
 ax.pie(det.values, labels=det.index)
 
